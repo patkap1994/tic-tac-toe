@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.board {
+    display: flex;
+    flex-wrap: wrap;
+    height: 450px;
+    width: 452px;
+}
+
+.square {
+    width: 150px;
+    height: 150px;
+    border: solid 2px black;
+}
+
+.square:hover {
+    background-color: whitesmoke;
+}
+
+.border-left {
+    border-left: none;
+}
+
+.border-top {
+    border-top: none;
+}
+
+.border-right {
+    border-right: none;
+}
+
+.border-bottom {
+    border-bottom: none;
+}
