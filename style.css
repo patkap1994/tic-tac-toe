@@ -7,24 +7,123 @@ body {
     height: 100%;
     width: 100%;
     margin: 0;
+    font-family: 'Montserrat', sans-serif;
 }
 
 body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.toggle-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.fa {
+    margin: 0 0.1em;
+}
+
+.toggle-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #000;
+    height: 30px;
+    width: 60px;
+    margin: 0 1em;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -ms-border-radius: 30px;
+    -o-border-radius: 30px;
+}
+
+.toggle {
+    position: absolute;
+    left: 2px;
+    background: rgb(6, 221, 6);
+    width: 26px;
+    height: 26px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+.toggle.active {
+    animation: toggle 0.5s forwards;
+    -webkit-animation: toggle 0.5s forwards;
+}
+
+@keyframes toggle {
+    0% {
+        left: 2px;
+        width: 26px;
+    }
+
+    50% {
+        left: 2px;
+        width: 56px;
+    }
+
+    51% {
+        width: 56px;
+        left: auto;
+        right: 2px;
+    }
+
+    100% {
+        width: 26px;
+        left: auto;
+        right: 2px;
+    }
+}
+
+.overlay {
+    position: absolute;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    font-size: 4rem;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 97, 224, 0.9);
+}
+
+.btn {
+    display: block;
+    background: rgb(6, 221, 6);
+    color: white;
+    text-decoration: none;
+    padding: 0.2em 0.6em;
+    font-size: 0.7em;
+    text-transform: uppercase;
+    box-shadow: 0px 5px 20px 5px rgba(0,0,0,0.3);
 }
 
 .board {
     display: flex;
     flex-wrap: wrap;
-    height: 450px;
-    width: 452px;
+    height: 330px;
+    width: 332px;
+    margin-top: 3em;
 }
 
 .square {
-    width: 150px;
-    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 5rem;
+    width: 110px;
+    height: 110px;
     border: solid 2px black;
 }
 
