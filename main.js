@@ -70,9 +70,48 @@ function makeMove(e) {
 
 function computerMove() {
     let counter = 1;
+    let boardCopy = board.slice();
+
+    function findElement(elem) {
+        return (boardCopy[elem[0]] !== "" && boardCopy[elem[1]] !== "" && boardCopy[elem[2]] !== "" &&
+            boardCopy[elem[0]] === boardCopy[elem[1]] && boardCopy[elem[1]] === boardCopy[elem[2]]);
+    }
+
+    for (let k = 0; k < boardCopy.length; k++) {
+
+        if (boardCopy[k] == "") {
+            boardCopy[k] = aiPlayer;
+        }
+
+        let bestComputerMove = WINNING_COMBINATIONS.find(findElement);
+
+
+        if (bestComputerMove && counter > 0) {
+            squares[k].innerHTML = aiPlayer;
+            counter--;
+        }
+
+        boardCopy = board.slice();
+    }
+
+    for (let j = 0; j < boardCopy.length; j++) {
+
+        if (boardCopy[j] == "") {
+            boardCopy[j] = player;
+        }
+
+        let bestPlayerMove = WINNING_COMBINATIONS.find(findElement);
+
+        if (bestPlayerMove && counter > 0) {
+            squares[j].innerHTML = aiPlayer;
+            counter--;
+        }
+
+        boardCopy = board.slice();
+    }
 
     for (let i = 0; i < board.length; i++) {
-        if (board[4] == "") {
+        if (board[4] == "" && counter > 0) {
             squares[4].innerHTML = aiPlayer;
         } else if (board[i] == "" && counter > 0) {
             squares[i].innerHTML = aiPlayer;
