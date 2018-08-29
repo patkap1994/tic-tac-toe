@@ -1,13 +1,12 @@
 //jshint esversion: 6
 let player;
-let aiPlayer;
+let aiPlayer = "O";
 let turn;
-let computer = true;
 
-let board = null;
-let boardContent = [];
+let playingWithComputer = true;
 
-const POSSIBLE_WINS = [
+let board = [];
+const WINNING_COMBINATIONS = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -24,15 +23,10 @@ let togglePlayers = document.querySelector(".toggle-btn");
 let nowPlaying = document.querySelector(".now-playing");
 
 window.addEventListener('load', startGame);
-
 togglePlayers.addEventListener('click', toggleGame);
 
 function toggleGame() {
-    if (computer) {
-        computer = false;
-    } else {
-        computer = true;
-    }
+    playingWithComputer = !playingWithComputer;
 
     togglePlayers.firstElementChild.classList.toggle("active");
 
@@ -42,11 +36,11 @@ function toggleGame() {
 function startGame() {
     player = "X";
 
-    nowPlaying.innerHTML = `Now playing ${player}`;
+    nowPlaying.innerHTML = playingWithComputer ? "You are X, play first." : `Now playing ${player}`;
 
     overlay.style.display = "none";
 
-    boardContent = ["", "", "", "", "", "", "", "", ""];
+    board = [...Array(9)].fill("");
 
     turn = 0;
 
@@ -54,35 +48,21 @@ function startGame() {
         squares[i].innerHTML = "";
         squares[i].addEventListener('click', makeMove);
     }
-
-    if (computer) {
-        aiPlayer = "O";
-        player = "X";
-
-        nowPlaying.innerHTML = "You are X, play first.";
-    }
 }
 
-function makeMove() {
-    if (this.innerHTML == "") {
-        this.innerHTML = player;
+function makeMove(e) {
+    if (e.target.innerHTML == "") {
+        e.target.innerHTML = player;
         turn++;
 
-        if (!computer) {
-            if (player == "X") {
-                player = "O";
-            } else {
-                player = "X";
-            }
-
+        if (!playingWithComputer) {
+            player = player == "X" ? "O" : "X";
             nowPlaying.innerHTML = `Now playing ${player}`;
         }
 
-
-
         if (checkWinner(squares)) {
             announceWinner();
-        } else if (computer) {
+        } else if (playingWithComputer) {
             computerMove();
         }
     }
@@ -91,16 +71,16 @@ function makeMove() {
 function computerMove() {
     let counter = 1;
 
-    for (let i = 0; i < boardContent.length; i++) {
-        if (boardContent[4] == "") {
+    for (let i = 0; i < board.length; i++) {
+        if (board[4] == "") {
             squares[4].innerHTML = aiPlayer;
-            turn++;
-        } else if (boardContent[i] == "" && counter > 0) {
+        } else if (board[i] == "" && counter > 0) {
             squares[i].innerHTML = aiPlayer;
             counter--;
-            turn++;
         }
     }
+
+    turn++;
 
     if (checkWinner(squares)) {
         announceWinner();
@@ -108,21 +88,18 @@ function computerMove() {
 }
 
 function checkWinner(squares) {
-    board = Array.prototype.slice.call(squares);
-
-    boardContent = board.map((elem) => {
+    board = Array.prototype.slice.call(squares).map((elem) => {
         return elem.innerHTML;
     });
 
-    let x = POSSIBLE_WINS.find((elem) => {
-        return (boardContent[elem[0]] !== "" && boardContent[elem[1]] !== "" && boardContent[elem[2]] !== "" &&
-            boardContent[elem[0]] === boardContent[elem[1]] && boardContent[elem[1]] === boardContent[elem[2]]);
+    let x = WINNING_COMBINATIONS.find((elem) => {
+        return (board[elem[0]] !== "" && board[elem[1]] !== "" && board[elem[2]] !== "" &&
+            board[elem[0]] === board[elem[1]] && board[elem[1]] === board[elem[2]]);
     });
 
     if (!x) {
         x = "draw";
-
-        for (let elem of boardContent) {
+        for (let elem of board) {
             if (elem == "") {
                 x = undefined;
             }
